@@ -98,6 +98,9 @@ class RssView extends BaseListView
         foreach ($this->channel as $element => $value) {
             if (is_string($value)) {
                 $this->getFeed()->addChannelElement($element, $value);
+            }
+            else if(is_array($value)){
+                $this->getFeed()->addChannelElementWithSub($element, $value);
             } else {
                 $result = call_user_func($value, $this, $this->getFeed());
                 if (is_string($result)) {
@@ -135,6 +138,9 @@ class RssView extends BaseListView
                 $result = call_user_func($value, $model, $this, $this->getFeed());
                 if (is_string($result)) {
                     $this->getFeed()->addItemElement($element, $result);
+                }
+                else if(is_array($result)){
+                    $this->getFeed()->addItemElement($element, '', $result);
                 }
             }
         }
